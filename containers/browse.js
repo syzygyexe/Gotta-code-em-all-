@@ -5,46 +5,30 @@ import axios from "axios";
 export function BrowseContainer() {
   const [loading, setLoading] = useState(true);
   const [pokemon, setPokemon] = useState([]);
-  const [pokemonType, setPokemonType] = useState("");
-  const [pokemonData, setPokemonData] = useState([]);
   const [pokemonImg, setPokemonImg] = useState([]);
 
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 1);
+    }, 2500);
   }, []);
 
-  // useEffect(() => {
-  //   axios.get("https://pokeapi.co/api/v2/pokemon/").then((res) => {
-  //     //   res.data is all json data from the pokeapi. Inside results there is an array of diffrent data(name etc).
-  //     setPokemon(res.data.results.map((p) => p.name));
-  //   });
-  // }, []);
-
   useEffect(() => {
-    const getPokemon = async () => {
-      const toArray = [];
-      const url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
-      const res = await axios.get(url);
-      console.log(res);
-      toArray.push(res.data);
-      console.log(toArray);
-      // setPokemonType(res.data.types[0].type.name);
-      setPokemonData(toArray);
-    };
-    getPokemon();
+    axios.get("https://pokeapi.co/api/v2/pokemon/").then((res) => {
+      //   res.data is all json data from the pokeapi. Inside results there is an array of diffrent data(name etc).
+      setPokemon(res.data.results.map((p) => p.name));
+    });
   }, []);
 
   useEffect(() => {
     const imageCollection = async () => {
-      const imagePromiseArr = [];
+      const promiseArr = [];
       for (let id = 1; id <= 20; id++) {
-        imagePromiseArr.push(
+        promiseArr.push(
           `https://pokeres.bastionbot.org/images/pokemon/${id}.png`
         );
       }
-      const result = await Promise.all(imagePromiseArr);
+      const result = await Promise.all(promiseArr);
       setPokemonImg(result);
     };
     imageCollection();
@@ -68,10 +52,10 @@ export function BrowseContainer() {
       <Browse>
         <Browse.Title>Pokepedia</Browse.Title>
         <Browse.Frame>
-          {pokemonData.map((data, index) => (
+          {pokemon.map((pokeinfo, index) => (
             <Browse.Card key={index}>
               <Browse.CardImage src={pokemonImg[index]} />
-              <h1> {Math.round(data.weight / 4.3)} lbs</h1>
+              {pokeinfo}
             </Browse.Card>
           ))}
         </Browse.Frame>
