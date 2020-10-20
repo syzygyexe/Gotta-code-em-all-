@@ -5,15 +5,15 @@ import { axios } from "../axios/axios";
 export function BrowseContainer() {
   const [loading, setLoading] = useState(true);
   const [pokemon, setPokemon] = useState([]);
-  const [pokemonType, setPokemonType] = useState("");
+  const [pokemonType, setPokemonType] = useState([]);
   const [pokemonData, setPokemonData] = useState([]);
   const [pokemonImg, setPokemonImg] = useState([]);
-  const pokemonPerPage = 21;
+  const pokemonPerPage = 251;
 
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 1);
+    }, 2500);
   }, []);
 
   useEffect(() => {
@@ -26,7 +26,6 @@ export function BrowseContainer() {
       setPokemon(res.map((p) => p.data.name));
       setPokemonType(res.map((p) => p.data.types[0].type.name));
       setPokemonData(res.map((p) => p.data.id));
-      console.log(pokemonData);
     };
     getPokemon();
   }, []);
@@ -64,16 +63,17 @@ export function BrowseContainer() {
         <Browse.Title>Pokepedia</Browse.Title>
         <Browse.Frame>
           {pokemon.map((name, index) => (
-            <Browse.Card>
-              <Browse.CardImage src={pokemonImg[index]} />
-              <Browse.CardTitle>
-                {name.charAt(0).toUpperCase() + name.slice(1)}
-              </Browse.CardTitle>
+            // Change Browse.Card design based on the Pokemon type
+            <Browse.Card pokemonType={pokemonType[index]}>
+              <Browse.CardImageFrame>
+                <Browse.CardImage src={pokemonImg[index]} />
+              </Browse.CardImageFrame>
+              <Browse.CardTitle>{name}</Browse.CardTitle>
               <Browse.CardType>{pokemonType[index]}</Browse.CardType>
               <Browse.CardID>#{pokemonData[index]}</Browse.CardID>
               <Browse.CardButton
                 onClick={() => {
-                  console.log("check");
+                  console.log("check!!!!!!!!!!!!!!!!!");
                 }}
               >
                 Learn More
