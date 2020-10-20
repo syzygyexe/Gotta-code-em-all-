@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Loading, Browse, Navbar } from "../components";
-// import axios from "axios";
-
 import { axios } from "../axios/axios";
 
 export function BrowseContainer() {
