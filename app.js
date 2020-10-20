@@ -7,10 +7,8 @@ export function App() {
   return (
     <Router>
       <Switch>
-        <Route path='/' exact component={MainPage} />
-      </Switch>
-      <Switch>
-        <Route path='/browse' exact component={BrowseContainer} />
+        <Route exact path='/' component={MainPage} />
+        <Route exact path='/browse' component={BrowseContainer} />
       </Switch>
     </Router>
   );
