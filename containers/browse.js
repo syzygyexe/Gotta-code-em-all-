@@ -1,34 +1,47 @@
 import React, { useState, useEffect } from "react";
 import { Loading, Browse, Navbar } from "../components";
-import axios from "axios";
+// import axios from "axios";
+
+import { axios } from "../axios/axios";
 
 export function BrowseContainer() {
   const [loading, setLoading] = useState(true);
   const [pokemon, setPokemon] = useState([]);
+  const [pokemonType, setPokemonType] = useState("");
+  const [pokemonData, setPokemonData] = useState([]);
   const [pokemonImg, setPokemonImg] = useState([]);
+  const pokemonPerPage = 21;
 
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 2500);
+    }, 1);
   }, []);
 
   useEffect(() => {
-    axios.get("https://pokeapi.co/api/v2/pokemon/").then((res) => {
-      //   res.data is all json data from the pokeapi. Inside results there is an array of diffrent data(name etc).
-      setPokemon(res.data.results.map((p) => p.name));
-    });
+    const getPokemon = async () => {
+      const toArray = [];
+      for (let p = 1; p < pokemonPerPage; p++) {
+        toArray.push(axios.get(`/${p}`));
+      }
+      const res = await Promise.all(toArray);
+      setPokemon(res.map((p) => p.data.name));
+      setPokemonType(res.map((p) => p.data.types[0].type.name));
+      setPokemonData(res.map((p) => p.data.id));
+      console.log(pokemonData);
+    };
+    getPokemon();
   }, []);
 
   useEffect(() => {
     const imageCollection = async () => {
-      const promiseArr = [];
-      for (let id = 1; id <= 20; id++) {
-        promiseArr.push(
+      const imagePromiseArr = [];
+      for (let id = 1; id <= pokemonPerPage; id++) {
+        imagePromiseArr.push(
           `https://pokeres.bastionbot.org/images/pokemon/${id}.png`
         );
       }
-      const result = await Promise.all(promiseArr);
+      const result = await Promise.all(imagePromiseArr);
       setPokemonImg(result);
     };
     imageCollection();
@@ -52,10 +65,21 @@ export function BrowseContainer() {
       <Browse>
         <Browse.Title>Pokepedia</Browse.Title>
         <Browse.Frame>
-          {pokemon.map((pokeinfo, index) => (
-            <Browse.Card key={index}>
+          {pokemon.map((name, index) => (
+            <Browse.Card>
               <Browse.CardImage src={pokemonImg[index]} />
-              {pokeinfo}
+              <Browse.CardTitle>
+                {name.charAt(0).toUpperCase() + name.slice(1)}
+              </Browse.CardTitle>
+              <Browse.CardType>{pokemonType[index]}</Browse.CardType>
+              <Browse.CardID>#{pokemonData[index]}</Browse.CardID>
+              <Browse.CardButton
+                onClick={() => {
+                  console.log("check");
+                }}
+              >
+                Learn More
+              </Browse.CardButton>
             </Browse.Card>
           ))}
         </Browse.Frame>
@@ -63,4 +87,3 @@ export function BrowseContainer() {
     </>
   );
 }
-
