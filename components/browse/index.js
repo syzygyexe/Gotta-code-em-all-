@@ -24,6 +24,7 @@ Browse.Title = function BrowseTitle({ children, ...restProps }) {
   return <Title {...restProps}>{children}</Title>;
 };
 
+// transport (!!!!!!!!!!!!!!!!!!!)
 Browse.Card = function BrowseCard({ pokemonType, children, ...restProps }) {
   return (
     <Card pokemonType={pokemonType} {...restProps}>
