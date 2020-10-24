@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Loading, Browse, Navbar } from "../components";
+import Modal from "react-modal";
 import { axios } from "../axios/axios";
 
 export function BrowseContainer() {
   const [loading, setLoading] = useState(true);
   const [pokemon, setPokemon] = useState([]);
   const [pokemonType, setPokemonType] = useState([]);
-  const [pokemonData, setPokemonData] = useState([]);
+  const [pokemonID, setPokemonID] = useState([]);
   const [pokemonImg, setPokemonImg] = useState([]);
-  const pokemonPerPage = 251;
+  // const [modalIsOpen, setModalIsOpen] = useState(false);
+  const pokemonNumber = 151;
 
   useEffect(() => {
     setTimeout(() => {
@@ -19,13 +21,14 @@ export function BrowseContainer() {
   useEffect(() => {
     const getPokemon = async () => {
       const toArray = [];
-      for (let p = 1; p < pokemonPerPage; p++) {
-        toArray.push(axios.get(`/${p}`));
+      for (let p = 1; p < pokemonNumber; p++) {
+        toArray.push(axios.get(`https://pokeapi.co/api/v2/pokemon/${p}`));
       }
       const res = await Promise.all(toArray);
       setPokemon(res.map((p) => p.data.name));
       setPokemonType(res.map((p) => p.data.types[0].type.name));
-      setPokemonData(res.map((p) => p.data.id));
+      setPokemonID(res.map((p) => p.data.id));
+      console.log(res.map((p) => p.data.id));
     };
     getPokemon();
   }, []);
@@ -33,7 +36,7 @@ export function BrowseContainer() {
   useEffect(() => {
     const imageCollection = async () => {
       const imagePromiseArr = [];
-      for (let id = 1; id <= pokemonPerPage; id++) {
+      for (let id = 1; id <= pokemonNumber; id++) {
         imagePromiseArr.push(
           `https://pokeres.bastionbot.org/images/pokemon/${id}.png`
         );
@@ -56,7 +59,14 @@ export function BrowseContainer() {
             width='50px'
             height='auto'
           />
-          <Navbar.Button>About</Navbar.Button>
+          <Navbar.Button onClick={() => setModalIsOpen(true)}>
+            About
+          </Navbar.Button>
+          <Modal display='flex' isOpen={modalIsOpen}>
+            <Browse.CardButton onClick={() => setModalIsOpen(false)}>
+              Close
+            </Browse.CardButton>
+          </Modal>
         </Navbar.Frame>
       </Navbar>
       <Browse>
@@ -64,20 +74,15 @@ export function BrowseContainer() {
         <Browse.Frame>
           {pokemon.map((name, index) => (
             // Change Browse.Card design based on the Pokemon type
-            <Browse.Card pokemonType={pokemonType[index]}>
+            <Browse.Card key={index} pokemonType={pokemonType[index]}>
               <Browse.CardImageFrame>
                 <Browse.CardImage src={pokemonImg[index]} />
               </Browse.CardImageFrame>
               <Browse.CardTitle>{name}</Browse.CardTitle>
               <Browse.CardType>{pokemonType[index]}</Browse.CardType>
-              <Browse.CardID>#{pokemonData[index]}</Browse.CardID>
-              <Browse.CardButton
-                onClick={() => {
-                  console.log("check!!!!!!!!!!!!!!!!!");
-                }}
-              >
-                Learn More
-              </Browse.CardButton>
+              <Browse.CardID>#{pokemonID[index]}</Browse.CardID>
+              {/* In progress */}
+              {/* <Browse.CardButton>Learn More</Browse.CardButton> */}
             </Browse.Card>
           ))}
         </Browse.Frame>
