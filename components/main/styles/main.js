@@ -1,5 +1,5 @@
 import styled from "styled-components/macro";
-const Link = window.ReactRouterDOM.Link;
+import { Link } from "react-router-dom";
 
 export const Background = styled.div`
   display: flex;
@@ -23,15 +23,16 @@ export const ButtonLink = styled(Link)`
   justify-content: center;
   align-items: center;
   background-color: #e50914;
-  width: 250px;
-  height: 60px;
+  width: 475px;
+  height: 90px;
   color: white;
   border: 0;
-  font-size: 15px;
+  font-size: 40px;
+  letter-spacing: 2px;
   cursor: pointer;
   text-decoration: none;
   box-sizing: border-box;
-  font-weight: ${({ active }) => (active === 'true' ? '700' : 'normal')};
+  font-weight: 100;
   &:hover {
     background: #f40612;
   }
@@ -39,4 +40,4 @@ export const ButtonLink = styled(Link)`
     width: 450px;
     height: 100px;
     font-size: 25px;
-`
+`;
