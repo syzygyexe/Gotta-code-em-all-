@@ -101,7 +101,7 @@ export const CardImage = styled.img`
 
 export const CardTitle = styled.div`
   text-transform: capitalize;
-  margin-top: 20px;
+  margin-top: 37.5px;
 `;
 
 export const CardType = styled.div`
@@ -122,13 +122,11 @@ export const CardButton = styled.button`
   display: inline-block;
   font-size: 20px;
   letter-spacing: 2.5px;
-  border-radius: 50px;
+  border-radius: 10px;
   border: 0.5px solid black;
   font-family: Pokemon;
-  &hover: {
-    background: blue;
-  }
-  &after: {
-    border-radius: 50px;
+  outline: none;
+  &:hover {
+    background-color: rgb(30, 30, 30);
   }
 `;
