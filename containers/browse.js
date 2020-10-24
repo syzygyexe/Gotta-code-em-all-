@@ -59,14 +59,12 @@ export function BrowseContainer() {
             width='50px'
             height='auto'
           />
-          <Navbar.Button onClick={() => setModalIsOpen(true)}>
-            About
-          </Navbar.Button>
-          <Modal display='flex' isOpen={modalIsOpen}>
+          <Navbar.Button>About</Navbar.Button>
+          {/* <Modal display='flex' isOpen={modalIsOpen}>
             <Browse.CardButton onClick={() => setModalIsOpen(false)}>
               Close
             </Browse.CardButton>
-          </Modal>
+          </Modal> */}
         </Navbar.Frame>
       </Navbar>
       <Browse>
@@ -90,3 +88,4 @@ export function BrowseContainer() {
     </>
   );
 }
+
