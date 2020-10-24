@@ -1,6 +1,5 @@
 import React from "react";
-import { Background, Container, ButtonLink, Text } from "./styles/header";
-const Link = window.ReactRouterDOM.Link;
+import { Background, Container, ButtonLink } from "./styles/main";
 
 export default function Main({ bg = true, children, ...restProps }) {
   return bg ? <Background {...restProps}>{children}</Background> : children;
