@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Loading, Browse, Navbar } from "../components";
-import Modal from "react-modal";
+// import Modal from "react-modal";
 import { axios } from "../axios/axios";
 
 export function BrowseContainer() {
